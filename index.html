@@ -342,6 +342,11 @@ async function enter(user){
   }
   try { const a = await getDoc(ACCESS); accessDoc = a.data() || {}; isAdmin = true; } catch(e){ isAdmin = false; }
   canEdit = isAdmin;
+  if (isAdmin) window.achAdmin = {
+    list: () => JSON.parse(JSON.stringify(DATA)),
+    async upsert(items){ for (const r of items){ const i = DATA.findIndex(x=>x.id===r.id); if(i>=0) DATA[i]=r; else DATA.push(r); } rangeOptions(); render(); await setDoc(CONTENT, { items: DATA, updated: serverTimestamp(), by: auth.currentUser.email }); return DATA.length; },
+    async remove(ids){ DATA = DATA.filter(x=>!ids.includes(x.id)); render(); await setDoc(CONTENT, { items: DATA, updated: serverTimestamp(), by: auth.currentUser.email }); return DATA.length; }
+  };
   for (const id of ['add','copy-text','copy-table','xlsx','access-btn']) $(id).hidden = !isAdmin;
   show('app'); fillSelects(); rangeOptions(); if(state.range!=='custom') applyRange(); else { $('f-from').value=state.from; $('f-to').value=state.to; }
   render();
