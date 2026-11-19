@@ -1,0 +1,514 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>הישגי הפקולטה להנדסה</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700&family=Assistant:wght@400;600;700&display=swap">
+<style>
+:root{color-scheme:light;box-sizing:border-box}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0}
+[hidden]{display:none!important}
+:root{
+  --bg:#F5FAF0; --surface:#ffffff; --fg:#10261b; --muted:#56695e; --line:#d6e3d6;
+  --brand:#004128; --brand-soft:#e3efe3; --sky:#2a8fb0; --sky-soft:#e1f2f8; --gold:#b98a14; --gold-soft:#f8efd2; --danger:#a3271c;
+  --display:"Frank Ruhl Libre","David","Times New Roman",serif;
+  --body:"Assistant","Arial Hebrew","Segoe UI",Arial,sans-serif;
+}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.55}
+.wrap{max-width:980px;margin:0 auto;padding-inline:16px;padding-block:20px 48px;display:grid;gap:20px}
+h1,h2{font-family:var(--display);text-wrap:balance;margin:0;color:var(--brand)}
+h1{font-size:clamp(1.7rem,4.5vw,2.4rem);line-height:1.15}
+h2{font-size:1.25rem}
+.sub{color:var(--muted);margin:4px 0 0}
+header{display:flex;flex-wrap:wrap;gap:16px;align-items:end;justify-content:space-between}
+.stats{display:flex;gap:20px;flex-wrap:wrap}
+.stat{display:grid}
+.stat b{font-family:var(--display);font-size:1.6rem;color:var(--brand);font-variant-numeric:tabular-nums;line-height:1.1}
+.stat span{font-size:.8rem;color:var(--muted);letter-spacing:.02em}
+button,select,input,textarea{font:inherit;color:inherit}
+.btn{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:7px 14px;cursor:pointer}
+.btn:hover{border-color:var(--brand)}
+.btn.primary{background:var(--brand);border-color:var(--brand);color:var(--bg);font-weight:600}
+.btn.danger{color:var(--danger);border-color:var(--danger)}
+.btn:disabled{opacity:.6;cursor:wait}
+:focus-visible{outline:2px solid var(--sky);outline-offset:2px}
+.filters{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px;display:grid;gap:12px}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.row label{display:flex;gap:6px;align-items:center;font-size:.9rem;color:var(--muted)}
+select,input[type=date],input[type=text],input[type=email],input[type=password],input[type=number],input[type=url],textarea{background:var(--bg);border:1px solid var(--line);border-radius:7px;padding:6px 9px;min-width:0}
+input[type=search]{background:var(--bg);border:1px solid var(--line);border-radius:7px;padding:6px 9px;flex:1 1 200px;min-width:0;font:inherit;color:inherit}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:1px solid var(--line);background:transparent;border-radius:999px;padding:3px 11px;font-size:.88rem;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--brand);color:var(--bg);border-color:var(--brand)}
+.actions{display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;align-items:center}
+.count{color:var(--muted);font-size:.9rem}
+.group{display:grid;gap:8px}
+.group h2{display:flex;gap:10px;align-items:baseline;border-bottom:1px solid var(--line);padding-bottom:4px}
+.group h2 small{font-family:var(--body);font-size:.85rem;color:var(--muted);font-weight:400}
+.item{display:grid;grid-template-columns:96px 1fr auto;gap:12px;padding:10px 4px;border-bottom:1px dashed var(--line);align-items:start}
+.date{font-variant-numeric:tabular-nums;color:var(--muted);font-size:.9rem;padding-top:2px}
+.body{min-width:0}
+.title{font-weight:700}
+.meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.tag{font-size:.78rem;border-radius:5px;padding:1px 7px;background:var(--brand-soft);color:var(--brand)}
+.tag.money{background:var(--gold-soft);color:var(--gold);font-variant-numeric:tabular-nums}
+.desc{margin:4px 0 0;color:var(--fg);opacity:.9}
+.item a{color:var(--sky)}
+.edit{border:0;background:none;color:var(--muted);cursor:pointer;padding:2px 6px;font-size:.85rem}
+.empty{background:var(--surface);border:1px dashed var(--line);border-radius:12px;padding:28px;text-align:center;color:var(--muted)}
+.sheet{position:fixed;inset:0;background:color-mix(in srgb,var(--fg) 35%,transparent);display:flex;justify-content:flex-start;z-index:10}
+.panel{background:var(--surface);width:min(460px,100%);height:100%;overflow:auto;padding:20px 16px;display:grid;gap:12px;align-content:start;box-shadow:0 0 30px rgba(0,0,0,.2)}
+.panel label{display:grid;gap:4px;font-size:.9rem;color:var(--muted)}
+.panel .checks{display:flex;flex-wrap:wrap;gap:8px 14px}
+.panel .checks label{display:flex;gap:5px;color:var(--fg)}
+.toast{position:fixed;bottom:16px;inset-inline:16px;margin:auto;max-width:420px;background:var(--brand);color:var(--bg);padding:10px 14px;border-radius:9px;text-align:center;z-index:20}
+@media (max-width:560px){.item{grid-template-columns:1fr auto}.date{grid-column:1/-1;padding:0}}
+@media (prefers-reduced-motion:no-preference){.chip,.btn{transition:background .15s,border-color .15s}}
+/* Bar-Ilan colour layer */
+:root{--band:#004128;--band-fg:#F5FAF0;--a-sky:#78CDE6;--a-gold:#EAB941;--a-leaf:#87CD7D}
+[data-cat]{--cat:#006937;--cat-fg:#ffffff}
+[data-cat="grant"]{--cat:#006937}
+[data-cat="award"]{--cat:#EAB941;--cat-fg:#10261b}
+[data-cat="pub"]{--cat:#2a8fb0}
+[data-cat="people"]{--cat:#87CD7D;--cat-fg:#10261b}
+[data-cat="students"]{--cat:#78CDE6;--cat-fg:#10261b}
+[data-cat="industry"]{--cat:#887029}
+[data-cat="events"]{--cat:#004128}
+[data-cat="media"]{--cat:#b98a14}
+[data-cat="other"]{--cat:#56695e}
+header{background:var(--band);color:var(--band-fg);border-radius:14px;padding:22px 24px;border-bottom:6px solid var(--a-sky);align-items:center}
+header h1{color:var(--band-fg)}
+header .sub{color:var(--a-leaf)}
+header .stat b{color:var(--a-gold)}
+header .stat span{color:var(--band-fg);opacity:.85}
+.filters{border-top:4px solid var(--a-gold)}
+.chip[data-cat]{border:2px solid var(--cat)}
+.chip[data-cat][aria-pressed="true"]{background:var(--cat);border-color:var(--cat);color:var(--cat-fg)}
+.group{gap:10px}
+.group h2{border-bottom:3px solid var(--cat);align-items:center}
+.group h2::before{content:"";width:14px;height:14px;border-radius:4px;background:var(--cat);flex:none}
+.group h2 small{background:color-mix(in srgb,var(--cat) 25%,transparent);color:var(--fg);border-radius:999px;padding:1px 10px;font-weight:600}
+.group .item{background:var(--surface);border:1px solid var(--line);border-inline-start:5px solid var(--cat);border-radius:10px;padding:12px 14px}
+.item a{font-weight:600}
+a.btn.primary{background:var(--a-gold);border-color:var(--a-gold);color:#10261b}
+a.btn.primary:hover{border-color:var(--band)}
+/* sign-in screens */
+.userbar{display:flex;gap:10px;align-items:center;justify-content:flex-end;font-size:.88rem;color:var(--muted);flex-wrap:wrap}
+.userbar button{border:0;background:none;color:var(--sky);cursor:pointer;padding:0;font-weight:600}
+.card{background:var(--surface);border:1px solid var(--line);border-top:4px solid var(--a-gold);border-radius:12px;padding:22px;max-width:440px;width:100%;margin:0 auto;display:grid;gap:14px}
+.card label{display:grid;gap:4px;font-size:.92rem;color:var(--muted)}
+.card input{padding:9px 11px;font-size:1rem}
+.tabs{display:flex;gap:6px}
+.tabs button{flex:1;border:1px solid var(--line);background:transparent;border-radius:8px;padding:8px;cursor:pointer;font-weight:600;color:var(--muted)}
+.tabs button[aria-selected="true"]{background:var(--brand);border-color:var(--brand);color:var(--bg)}
+.msg{border-radius:8px;padding:10px 12px;font-size:.93rem}
+.msg.err{background:#fbe9e7;color:var(--danger)}
+.msg.ok{background:var(--brand-soft);color:var(--brand)}
+.linkbtn{border:0;background:none;color:var(--sky);cursor:pointer;padding:0;font-weight:600;justify-self:start}
+.hint{font-size:.88rem;color:var(--muted);margin:0}
+.loading{text-align:center;color:var(--muted);padding:40px}
+.panel textarea.mono{font-family:ui-monospace,Consolas,monospace;font-size:.85rem;direction:ltr;text-align:left}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>הישגי הפקולטה להנדסה</h1>
+      <p class="sub">הפקולטה להנדסה ע"ש אלכסנדר קופקין, אוניברסיטת בר-אילן</p>
+    </div>
+    <div class="stats" id="stats"></div>
+  </header>
+
+  <div class="userbar" id="userbar" hidden><span id="who"></span><button type="button" id="access-btn" hidden>ניהול גישה</button><button type="button" id="signout">יציאה</button></div>
+
+  <div class="loading" id="loading">טוען...</div>
+
+  <!-- Sign in / sign up -->
+  <section class="card" id="auth" hidden aria-label="כניסה">
+    <div class="tabs" role="tablist">
+      <button type="button" role="tab" id="tab-in" aria-selected="true">כניסה</button>
+      <button type="button" role="tab" id="tab-up" aria-selected="false">הרשמה ראשונה</button>
+    </div>
+    <p class="hint" id="auth-hint">האתר פתוח לחברי וחברות סגל הפקולטה בלבד. נכנסים עם כתובת המייל של בר-אילן וסיסמה.</p>
+    <form id="auth-form" novalidate>
+      <div style="display:grid;gap:12px">
+        <label for="a-email">מייל בר-אילן<input type="email" id="a-email" autocomplete="username" dir="ltr" required></label>
+        <label for="a-pass">סיסמה<input type="password" id="a-pass" autocomplete="current-password" dir="ltr" required minlength="6"></label>
+        <label for="a-pass2" id="pass2-wrap" hidden>סיסמה שוב<input type="password" id="a-pass2" autocomplete="new-password" dir="ltr" minlength="6"></label>
+        <button class="btn primary" type="submit" id="a-submit">כניסה</button>
+      </div>
+    </form>
+    <button type="button" class="linkbtn" id="forgot">שכחתי סיסמה</button>
+    <div class="msg" id="auth-msg" hidden></div>
+  </section>
+
+  <!-- Waiting for email verification -->
+  <section class="card" id="verify" hidden>
+    <h2>צריך לאמת את כתובת המייל</h2>
+    <p>שלחנו קישור אימות אל <b id="v-email" dir="ltr"></b>. לוחצים על הקישור במייל, ואז חוזרים לכאן ולוחצים "אימתתי".</p>
+    <p class="hint">המייל מגיע מ-noreply@eng-achievements.firebaseapp.com. אם הוא לא מגיע תוך כמה דקות, כדאי לבדוק בתיבת דואר הזבל.</p>
+    <div class="row">
+      <button class="btn primary" type="button" id="v-done">אימתתי</button>
+      <button class="btn" type="button" id="v-resend">שליחה מחדש</button>
+    </div>
+    <div class="msg" id="v-msg" hidden></div>
+  </section>
+
+  <!-- Signed in but not on the list -->
+  <section class="card" id="denied" hidden>
+    <h2>הכתובת הזו לא ברשימת הגישה</h2>
+    <p>האתר פתוח לחברי וחברות סגל הפקולטה. אם צריכה להיות לך גישה, אפשר לכתוב לפזית פולק והיא תוסיף את הכתובת <b id="d-email" dir="ltr"></b>.</p>
+  </section>
+
+  <!-- The repository -->
+  <section class="filters" id="filters" aria-label="סינון" hidden>
+    <div class="row">
+      <label for="f-range">תקופה <select id="f-range"></select></label>
+      <label for="f-from">מ-<input type="date" id="f-from"></label>
+      <label for="f-to">עד<input type="date" id="f-to"></label>
+    </div>
+    <div class="chips" id="f-cats" aria-label="קטגוריות"></div>
+    <div class="row">
+      <label for="f-prog">תכנית <select id="f-prog"></select></label>
+      <input type="search" id="f-q" placeholder="חיפוש חופשי: שם, נושא, גוף מממן" aria-label="חיפוש">
+    </div>
+    <div class="actions">
+      <span class="count" id="count"></span>
+      <div class="row">
+        <a class="btn primary" style="text-decoration:none" href="https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=FE4jYYdbZ0usGY_qqLqPEu-LJPXLyjNBigL19gxnihNUN0ZTQTNSVDAyNE9NQ1dLTVhRSFZFOUlEVS4u" target="_blank" rel="noopener">יש לכם הישג חדש? דווחו כאן</a>
+        <button class="btn" id="copy-text" type="button" hidden>העתקה כטקסט לדיווח</button>
+        <button class="btn" id="copy-table" type="button" hidden>העתקה כטבלה לאקסל</button>
+        <button class="btn" id="xlsx" type="button" hidden>הורדת קובץ אקסל</button>
+        <button class="btn primary" id="add" type="button" hidden>הוספת הישג</button>
+      </div>
+    </div>
+  </section>
+
+  <main id="list"></main>
+</div>
+
+<div class="sheet" id="sheet" hidden>
+  <form class="panel" id="form">
+    <h2 id="form-title">הוספת הישג</h2>
+    <label for="e-date">תאריך<input type="date" id="e-date" required></label>
+    <label for="e-cat">קטגוריה<select id="e-cat"></select></label>
+    <label for="e-title">כותרת<input type="text" id="e-title" required></label>
+    <label for="e-people">מי (חוקרים/ות, סטודנטים/ות)<input type="text" id="e-people"></label>
+    <div><span class="count">תכניות</span><div class="checks" id="e-progs"></div></div>
+    <label for="e-desc">תיאור קצר, מוכן להדבקה בדיווח<textarea id="e-desc" rows="4"></textarea></label>
+    <div class="row">
+      <label for="e-amount">סכום (₪)<input type="number" id="e-amount" min="0" step="1"></label>
+      <label for="e-funder">גוף מממן/מעניק<input type="text" id="e-funder"></label>
+    </div>
+    <label for="e-link">קישור למקור<input type="url" id="e-link" placeholder="https://"></label>
+    <div class="row">
+      <button class="btn primary" type="submit">שמירה</button>
+      <button class="btn" type="button" id="cancel">ביטול</button>
+      <button class="btn danger" type="button" id="del" hidden>מחיקה</button>
+    </div>
+    <p class="count" id="del-confirm" hidden>ללחוץ שוב על "מחיקה" כדי לאשר.</p>
+  </form>
+</div>
+
+<div class="sheet" id="access-sheet" hidden>
+  <form class="panel" id="access-form">
+    <h2>ניהול גישה</h2>
+    <p class="hint">כתובת אחת בכל שורה. מי שברשימה יכול להירשם ולצפות. מנהלות יכולות גם לערוך.</p>
+    <label for="acc-emails">צופים (<span id="acc-n"></span>)<textarea class="mono" id="acc-emails" rows="14"></textarea></label>
+    <label for="acc-admins">מנהלות<textarea class="mono" id="acc-admins" rows="3"></textarea></label>
+    <div class="row">
+      <button class="btn primary" type="submit">שמירה</button>
+      <button class="btn" type="button" id="acc-cancel">ביטול</button>
+    </div>
+  </form>
+</div>
+<div class="toast" id="toast" hidden></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword,
+  sendEmailVerification, sendPasswordResetEmail, signOut } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+import { getFirestore, doc, getDoc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+
+const app = initializeApp({
+  apiKey: "AIzaSyBxHkdv6EyIPAPSo47j2bUuOy9lUCLpDwg",
+  authDomain: "eng-achievements.firebaseapp.com",
+  projectId: "eng-achievements",
+  storageBucket: "eng-achievements.firebasestorage.app",
+  messagingSenderId: "521599217340",
+  appId: "1:521599217340:web:6d651d3a34a30720cfaab9"
+});
+const auth = getAuth(app); auth.languageCode = 'he';
+const db = getFirestore(app);
+const CONTENT = doc(db, 'content', 'achievements');
+const ACCESS = doc(db, 'config', 'access');
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function toast(msg){ const t=$('toast'); t.textContent=msg; t.hidden=false; clearTimeout(toast.t); toast.t=setTimeout(()=>t.hidden=true,3000); }
+function show(which){
+  for (const id of ['loading','auth','verify','denied']) $(id).hidden = id !== which;
+  const inApp = which === 'app';
+  $('filters').hidden = !inApp; $('list').hidden = !inApp;
+  if (!inApp){ $('list').innerHTML=''; $('stats').innerHTML=''; }
+}
+function msg(el, text, ok){ const m=$(el); m.textContent=text; m.className='msg '+(ok?'ok':'err'); m.hidden=!text; }
+
+const ERR = {
+  'auth/invalid-email':'כתובת המייל לא תקינה.',
+  'auth/missing-password':'צריך להקליד סיסמה.',
+  'auth/weak-password':'הסיסמה קצרה מדי, צריך לפחות 6 תווים.',
+  'auth/email-already-in-use':'הכתובת כבר רשומה. אפשר להיכנס בלשונית "כניסה", או ללחוץ "שכחתי סיסמה".',
+  'auth/invalid-credential':'המייל או הסיסמה לא נכונים. אם זו הפעם הראשונה, צריך קודם "הרשמה ראשונה".',
+  'auth/user-not-found':'הכתובת לא רשומה עדיין. צריך קודם "הרשמה ראשונה".',
+  'auth/wrong-password':'הסיסמה לא נכונה.',
+  'auth/too-many-requests':'יותר מדי ניסיונות. כדאי לחכות כמה דקות ולנסות שוב.',
+  'auth/network-request-failed':'אין חיבור לרשת. כדאי לנסות שוב.'
+};
+const errText = e => ERR[e && e.code] || ('משהו השתבש' + (e && e.code ? ` (${e.code})` : '') + '.');
+
+/* ---------- auth screens ---------- */
+let mode = 'in';
+function setMode(m){
+  mode = m;
+  $('tab-in').setAttribute('aria-selected', m==='in'); $('tab-up').setAttribute('aria-selected', m==='up');
+  $('pass2-wrap').hidden = m!=='up'; $('forgot').hidden = m!=='in';
+  $('a-submit').textContent = m==='in' ? 'כניסה' : 'הרשמה';
+  $('a-pass').autocomplete = m==='in' ? 'current-password' : 'new-password';
+  $('auth-hint').textContent = m==='in'
+    ? 'האתר פתוח לחברי וחברות סגל הפקולטה בלבד. נכנסים עם כתובת המייל של בר-אילן וסיסמה.'
+    : 'בפעם הראשונה בוחרים סיסמה לאתר הזה (לא סיסמת בר-אילן). אחרי ההרשמה יישלח מייל אימות.';
+  msg('auth-msg','');
+}
+$('tab-in').onclick = () => setMode('in');
+$('tab-up').onclick = () => setMode('up');
+$('auth-form').addEventListener('submit', async e => {
+  e.preventDefault();
+  const email = $('a-email').value.trim().toLowerCase(), pass = $('a-pass').value;
+  if (mode==='up' && pass !== $('a-pass2').value){ msg('auth-msg','שתי הסיסמאות לא זהות.'); return; }
+  $('a-submit').disabled = true; msg('auth-msg','');
+  try {
+    if (mode==='in') await signInWithEmailAndPassword(auth, email, pass);
+    else { const c = await createUserWithEmailAndPassword(auth, email, pass); await sendEmailVerification(c.user); }
+  } catch(err){ msg('auth-msg', errText(err)); }
+  $('a-submit').disabled = false;
+});
+$('forgot').onclick = async () => {
+  const email = $('a-email').value.trim().toLowerCase();
+  if (!email){ msg('auth-msg','צריך להקליד קודם את כתובת המייל, ואז ללחוץ "שכחתי סיסמה".'); return; }
+  try { await sendPasswordResetEmail(auth, email); msg('auth-msg','אם הכתובת רשומה, נשלח אליה קישור לבחירת סיסמה חדשה. כדאי לבדוק גם בדואר הזבל.', true); }
+  catch(err){ msg('auth-msg', errText(err)); }
+};
+$('v-done').onclick = async () => {
+  await auth.currentUser.reload();
+  if (auth.currentUser.emailVerified){ await auth.currentUser.getIdToken(true); enter(auth.currentUser); }
+  else msg('v-msg','הכתובת עדיין לא אומתה. צריך ללחוץ על הקישור במייל.');
+};
+$('v-resend').onclick = async () => {
+  try { await sendEmailVerification(auth.currentUser); msg('v-msg','נשלח שוב.', true); }
+  catch(err){ msg('v-msg', errText(err)); }
+};
+$('signout').onclick = () => signOut(auth);
+
+onAuthStateChanged(auth, user => {
+  $('userbar').hidden = !user; $('access-btn').hidden = true;
+  if (!user){ isAdmin=false; canEdit=false; DATA=[]; show('auth'); return; }
+  $('who').textContent = user.email;
+  if (!user.emailVerified){ $('v-email').textContent = user.email; msg('v-msg',''); show('verify'); return; }
+  enter(user);
+});
+
+/* ---------- repository ---------- */
+const CATS = [
+  ['grant','מענקי מחקר'],['award','פרסים והוקרה'],['pub','פרסומים בולטים'],['people','קליטות ומינויים'],
+  ['students','הישגי סטודנטים'],['industry','תעשייה ושיתופי פעולה'],['events','כנסים ואירועים'],['media','תקשורת וחשיפה'],['other','אחר']];
+const CATNAME = Object.fromEntries(CATS);
+const PROGS = ['הנדסת חשמל','הנדסת מחשבים','הנדסת תוכנה','הנדסת נתונים ובינה מלאכותית','הנדסת תעשייה ומערכות מידע','הנדסת חומרים'];
+let DATA = [], canEdit = false, isAdmin = false, accessDoc = null;
+
+async function enter(user){
+  show('loading');
+  try {
+    const snap = await getDoc(CONTENT);
+    DATA = (snap.exists() && snap.data().items) || [];
+  } catch(err){
+    if (err.code === 'permission-denied'){ $('d-email').textContent = user.email; show('denied'); return; }
+    show('loading'); $('loading').textContent = 'טעינת הנתונים נכשלה (' + (err.code||'') + '). כדאי לרענן את הדף.'; return;
+  }
+  try { const a = await getDoc(ACCESS); accessDoc = a.data() || {}; isAdmin = true; } catch(e){ isAdmin = false; }
+  canEdit = isAdmin;
+  for (const id of ['add','copy-text','copy-table','xlsx','access-btn']) $(id).hidden = !isAdmin;
+  show('app'); fillSelects(); rangeOptions(); if(state.range!=='custom') applyRange(); else { $('f-from').value=state.from; $('f-to').value=state.to; }
+  render();
+}
+
+const fmtDate = d => { if(!d) return ''; const [y,m,dd] = d.split('-'); return `${dd}/${m}/${y}`; };
+const fmtMoney = n => Number(n).toLocaleString('he-IL') + ' ₪';
+const todayISO = () => { const t = new Date(); return new Date(t.getTime()-t.getTimezoneOffset()*60000).toISOString().slice(0,10); };
+function acadStart(iso){ const [y,m] = iso.split('-').map(Number); return m >= 10 ? y : y-1; }
+function hebYear(startYear){
+  let n = (startYear + 3761) % 1000; const L = [];
+  const H = [[400,'ת'],[300,'ש'],[200,'ר'],[100,'ק'],[90,'צ'],[80,'פ'],[70,'ע'],[60,'ס'],[50,'נ'],[40,'מ'],[30,'ל'],[20,'כ'],[10,'י'],[9,'ט'],[8,'ח'],[7,'ז'],[6,'ו'],[5,'ה'],[4,'ד'],[3,'ג'],[2,'ב'],[1,'א']];
+  for (const [v,c] of H){ while(n>=v){ if(n===15){L.push('ט','ו');n=0;break;} if(n===16){L.push('ט','ז');n=0;break;} L.push(c); n-=v; } }
+  return L.length>1 ? L.slice(0,-1).join('') + '"' + L[L.length-1] : L.join('') + "'";
+}
+const state = { range:'all', from:'', to:'', cats:new Set(), prog:'', q:'' };
+const pg = d => Array.isArray(d.programs) ? d.programs : (d.program ? [d.program] : []);
+try { const s = JSON.parse(localStorage.getItem('ach-filters')||'null'); if (s){ Object.assign(state, s, {cats:new Set(s.cats||[])}); } } catch(e){}
+function saveFilters(){ try { localStorage.setItem('ach-filters', JSON.stringify({...state, cats:[...state.cats]})); } catch(e){} }
+
+function rangeOptions(){
+  const nowStart = acadStart(todayISO());
+  const years = new Set([nowStart, nowStart-1, ...DATA.filter(d=>d.date).map(d=>acadStart(d.date))]);
+  const opts = [['acad','השנה האקדמית הנוכחית'],['12m','12 החודשים האחרונים'],['all','כל התקופות']];
+  [...years].sort((a,b)=>b-a).forEach(y => opts.push(['y'+y, `שנת ${hebYear(y)} (10/${y} עד 09/${y+1})`]));
+  opts.push(['custom','טווח תאריכים חופשי']);
+  $('f-range').innerHTML = opts.map(([v,t]) => `<option value="${v}">${esc(t)}</option>`).join('');
+  if (![...$('f-range').options].some(o=>o.value===state.range)) state.range='all';
+  $('f-range').value = state.range;
+}
+function applyRange(){
+  const t = todayISO();
+  if (state.range==='acad'){ const y = acadStart(t); state.from=`${y}-10-01`; state.to=`${y+1}-09-30`; }
+  else if (state.range==='12m'){ const d = new Date(); d.setFullYear(d.getFullYear()-1); state.from=d.toISOString().slice(0,10); state.to=t; }
+  else if (state.range==='all'){ state.from=''; state.to=''; }
+  else if (state.range.startsWith('y')){ const y = +state.range.slice(1); state.from=`${y}-10-01`; state.to=`${y+1}-09-30`; }
+  $('f-from').value = state.from; $('f-to').value = state.to;
+}
+function filtered(){
+  const q = state.q.trim().toLowerCase();
+  return DATA.filter(d =>
+    (!state.from || d.date >= state.from) && (!state.to || d.date <= state.to) &&
+    (!state.cats.size || state.cats.has(d.cat)) && (!state.prog || pg(d).includes(state.prog)) &&
+    (!q || [d.title,d.people,d.desc,d.funder,pg(d).join(' ')].join(' ').toLowerCase().includes(q))
+  ).sort((a,b)=> (b.date||'').localeCompare(a.date||''));
+}
+function render(){
+  const rows = filtered();
+  $('stats').innerHTML =
+    `<div class="stat"><b>${rows.length}</b><span>הישגים בתצוגה</span></div>` +
+    `<div class="stat"><b>${rows.filter(d=>d.cat==='grant').length}</b><span>מענקי מחקר</span></div>`;
+  $('count').textContent = DATA.length ? `מוצגים ${rows.length} מתוך ${DATA.length} הישגים` : '';
+  $('f-cats').innerHTML = CATS.map(([k,n]) => `<button type="button" class="chip" data-cat="${k}" aria-pressed="${state.cats.has(k)}">${n}</button>`).join('');
+  if (!DATA.length){ $('list').innerHTML = `<div class="empty"><h2>המאגר עדיין ריק</h2></div>`; return; }
+  if (!rows.length){ $('list').innerHTML = `<div class="empty">אין הישגים שמתאימים לסינון. אפשר לנקות קטגוריות או להרחיב את התקופה.</div>`; return; }
+  $('list').innerHTML = CATS.map(([k,n]) => {
+    const g = rows.filter(d=>d.cat===k); if(!g.length) return '';
+    return `<section class="group" data-cat="${k}"><h2>${n} <small>${g.length}</small></h2>` + g.map(d => `
+      <article class="item">
+        <div class="date">${fmtDate(d.date)}</div>
+        <div class="body">
+          <div class="title">${esc(d.title)}</div>
+          ${d.people?`<div class="count">${esc(d.people)}</div>`:''}
+          ${d.desc?`<p class="desc">${esc(d.desc)}</p>`:''}
+          <div class="meta">
+            ${pg(d).map(x=>`<span class="tag">${esc(x)}</span>`).join('')}
+            ${d.amount?`<span class="tag money">${fmtMoney(d.amount)}</span>`:''}
+            ${d.funder?`<span class="tag">${esc(d.funder)}</span>`:''}
+            ${d.link?`<a href="${esc(d.link)}" target="_blank" rel="noopener">מקור</a>`:''}
+          </div>
+        </div>
+        ${canEdit?`<button class="edit" type="button" data-edit="${esc(d.id)}">עריכה</button>`:'<span></span>'}
+      </article>`).join('') + `</section>`;
+  }).join('');
+}
+
+/* ---------- admin: export ---------- */
+async function copy(text){
+  try { await navigator.clipboard.writeText(text); toast('הועתק. אפשר להדביק במסמך או בגיליון.'); }
+  catch(e){ toast('ההעתקה נחסמה.'); }
+}
+function reportText(){
+  const rows = filtered(); if(!rows.length) return '';
+  const head = `הישגי הפקולטה להנדסה` + (state.from||state.to ? `, ${fmtDate(state.from)||'...'} עד ${fmtDate(state.to)||'היום'}` : '');
+  return head + '\n\n' + CATS.map(([k,n]) => {
+    const g = rows.filter(d=>d.cat===k); if(!g.length) return '';
+    return n + '\n' + g.map(d => `• ${fmtDate(d.date)}: ${d.title}${d.people?` (${d.people})`:''}.${d.desc?' '+d.desc:''}${d.amount?` סכום: ${fmtMoney(d.amount)}.`:''}`).join('\n');
+  }).filter(Boolean).join('\n\n');
+}
+const COLS = ['תאריך','קטגוריה','כותרת','מי','תכניות','תיאור','סכום (₪)','גוף מממן','קישור'];
+const rowOf = d => [fmtDate(d.date),CATNAME[d.cat]||'',d.title||'',d.people||'',pg(d).join(', '),d.desc||'',d.amount?Number(d.amount):'',d.funder||'',d.link||''];
+$('copy-text').onclick = () => { const t=reportText(); t?copy(t):toast('אין הישגים בתצוגה להעתקה.'); };
+$('copy-table').onclick = () => { const r=filtered(); if(!r.length) return toast('אין הישגים בתצוגה להעתקה.'); copy([COLS.join('\t'), ...r.map(d=>rowOf(d).map(x=>String(x).replace(/[\t\n\r]+/g,' ')).join('\t'))].join('\n')); };
+$('xlsx').onclick = async () => {
+  const rows = filtered(); if(!rows.length) return toast('אין הישגים בתצוגה לייצוא.');
+  if (!window.XLSX){ await new Promise((ok,bad)=>{ const s=document.createElement('script'); s.src='https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js'; s.onload=ok; s.onerror=bad; document.head.appendChild(s); }).catch(()=>{}); }
+  if (!window.XLSX) return toast('ההורדה לא הצליחה.');
+  const ws = XLSX.utils.aoa_to_sheet([COLS, ...rows.map(rowOf)]);
+  ws['!cols'] = [12,20,40,28,24,60,14,22,30].map(w=>({wch:w}));
+  const wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, ws, 'הישגים'); wb.Workbook = { Views:[{RTL:true}] };
+  XLSX.writeFile(wb, `הישגי הפקולטה ${todayISO()}.xlsx`);
+};
+
+/* ---------- admin: editing ---------- */
+let editingId = null, delArmed = false;
+function fillSelects(){
+  $('f-prog').innerHTML = `<option value="">הכל</option>` + PROGS.map(p=>`<option>${esc(p)}</option>`).join('');
+  $('e-cat').innerHTML = CATS.map(([k,n])=>`<option value="${k}">${n}</option>`).join('');
+  $('e-progs').innerHTML = PROGS.map((p,i)=>`<label for="e-g${i}"><input type="checkbox" id="e-g${i}" value="${esc(p)}"> ${esc(p)}</label>`).join('');
+  $('f-prog').value = state.prog; $('f-q').value = state.q;
+}
+function openForm(id){
+  editingId = id || null; const d = DATA.find(x=>x.id===id) || {date:todayISO(),cat:'grant'};
+  $('form-title').textContent = id ? 'עריכת הישג' : 'הוספת הישג';
+  $('e-date').value=d.date||''; $('e-cat').value=d.cat||'other'; $('e-title').value=d.title||''; $('e-people').value=d.people||'';
+  $('e-progs').querySelectorAll('input').forEach(c=>c.checked=pg(d).includes(c.value)); $('e-desc').value=d.desc||''; $('e-amount').value=d.amount||''; $('e-funder').value=d.funder||'';
+  $('e-link').value=d.link||''; $('del').hidden = !id; $('del-confirm').hidden = true; delArmed=false;
+  $('sheet').hidden=false; $('e-title').focus();
+}
+async function persist(){
+  try { await setDoc(CONTENT, { items: DATA, updated: serverTimestamp(), by: auth.currentUser.email }); toast('נשמר'); }
+  catch(e){ toast('השמירה לא הצליחה' + (e.code?` (${e.code})`:'')); }
+}
+$('form').addEventListener('submit', e => {
+  e.preventDefault(); if (!canEdit) return;
+  const rec = { id: editingId || ('a'+Date.now().toString(36)), date:$('e-date').value, cat:$('e-cat').value, title:$('e-title').value.trim(),
+    people:$('e-people').value.trim(), programs:[...$('e-progs').querySelectorAll('input:checked')].map(c=>c.value),
+    desc:$('e-desc').value.trim(), amount:$('e-amount').value?Number($('e-amount').value):null, funder:$('e-funder').value.trim(),
+    link:$('e-link').value.trim() };
+  const i = DATA.findIndex(x=>x.id===rec.id); if(i>=0) DATA[i]=rec; else DATA.push(rec);
+  $('sheet').hidden=true; rangeOptions(); render(); persist();
+});
+$('cancel').onclick = () => $('sheet').hidden=true;
+$('sheet').addEventListener('click', e => { if(e.target.id==='sheet') $('sheet').hidden=true; });
+$('del').onclick = () => {
+  if(!delArmed){ delArmed=true; $('del-confirm').hidden=false; return; }
+  DATA = DATA.filter(x=>x.id!==editingId); $('sheet').hidden=true; render(); persist();
+};
+$('add').onclick = () => openForm(null);
+$('list').addEventListener('click', e => { const b=e.target.closest('[data-edit]'); if(b && canEdit) openForm(b.dataset.edit); });
+
+/* ---------- admin: access list ---------- */
+const parseList = t => [...new Set(t.split(/[\s,;]+/).map(s=>s.trim().toLowerCase()).filter(s=>s.includes('@')))];
+$('access-btn').onclick = async () => {
+  try { accessDoc = (await getDoc(ACCESS)).data() || {}; } catch(e){}
+  $('acc-emails').value = (accessDoc.emails||[]).join('\n'); $('acc-admins').value = (accessDoc.admins||[]).join('\n');
+  $('acc-n').textContent = (accessDoc.emails||[]).length; $('access-sheet').hidden = false;
+};
+$('acc-emails').oninput = () => $('acc-n').textContent = parseList($('acc-emails').value).length;
+$('acc-cancel').onclick = () => $('access-sheet').hidden = true;
+$('access-form').addEventListener('submit', async e => {
+  e.preventDefault();
+  const admins = parseList($('acc-admins').value);
+  if (!admins.includes(auth.currentUser.email.toLowerCase())) return toast('אי אפשר להסיר את עצמך מרשימת המנהלות.');
+  const next = { emails: parseList($('acc-emails').value), admins, updated: serverTimestamp() };
+  try { await setDoc(ACCESS, next); accessDoc = next; $('access-sheet').hidden = true; toast('רשימת הגישה נשמרה'); }
+  catch(err){ toast('השמירה לא הצליחה' + (err.code?` (${err.code})`:'')); }
+});
+
+/* ---------- filters ---------- */
+$('f-range').onchange = e => { state.range=e.target.value; if(state.range!=='custom') applyRange(); saveFilters(); render(); };
+$('f-from').onchange = e => { state.from=e.target.value; state.range='custom'; $('f-range').value='custom'; saveFilters(); render(); };
+$('f-to').onchange = e => { state.to=e.target.value; state.range='custom'; $('f-range').value='custom'; saveFilters(); render(); };
+$('f-cats').addEventListener('click', e => { const c=e.target.closest('[data-cat]'); if(!c) return; const k=c.dataset.cat; state.cats.has(k)?state.cats.delete(k):state.cats.add(k); saveFilters(); render(); });
+$('f-prog').onchange = e => { state.prog=e.target.value; saveFilters(); render(); };
+$('f-q').oninput = e => { state.q=e.target.value; saveFilters(); render(); };
+setMode('in');
+</script>
+</body>
+</html>

@@ -1,2 +1,7 @@
 # eng-achievements
-Faculty of Engineering achievements site (staff-only data in Firebase)
+
+אתר הישגי הפקולטה להנדסה ע"ש אלכסנדר קופקין, אוניברסיטת בר-אילן.
+
+- הקוד כאן ציבורי, אבל **הנתונים לא**: ההישגים ורשימת הגישה שמורים ב-Firebase (פרויקט `eng-achievements`) ונקראים רק אחרי כניסה במייל מאומת שנמצא ברשימת הגישה.
+- כללי הגישה מוגדרים ב-Firestore Rules בקונסולה של Firebase.
+- מנהלות (רשימת `admins`) יכולות להוסיף ולערוך הישגים ולנהל את רשימת הגישה מתוך האתר.
